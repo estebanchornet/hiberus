@@ -23,7 +23,7 @@ export default function HomeStackNavigator() {
       <HomeStack.Screen
         name="home"
         component={HomeScreen}
-        options={{ title: "Home" }}
+        options={{ title: "Pokédex" }}
       />
       <HomeStack.Screen
         name="pokemonDetail"

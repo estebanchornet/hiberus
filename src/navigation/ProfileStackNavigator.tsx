@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button } from "react-native-elements";
+import { useAuth } from "../providers/AuthProvider";
 import ProfileScreen from "../screens/ProfileScreen";
 import { headerStyle } from "../styles/Screens";
 
@@ -9,6 +10,7 @@ export type ProfileStackParamsList = {
 
 const ProfileStack = createStackNavigator<ProfileStackParamsList>();
 export default function ProfileStackNavigator() {
+  const { signOut } = useAuth();
   return (
     <ProfileStack.Navigator
       screenOptions={{
@@ -25,7 +27,7 @@ export default function ProfileStackNavigator() {
         options={{
           title: "Profile",
           headerRight: () => (
-            <Button type="clear" title="Sign out" onPress={() => {}} />
+            <Button type="clear" title="Sign out" onPress={signOut} />
           )
         }}
       />

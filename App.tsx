@@ -1,6 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import RootStackNavigator from "./src/navigation/RootStackNavigator";
+import AuthProvider from "./src/providers/AuthProvider";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -12,8 +14,12 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <RootStackNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <RootStackNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </AuthProvider>
   );
 }

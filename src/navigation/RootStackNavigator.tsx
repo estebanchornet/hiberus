@@ -3,8 +3,11 @@ import {
   TransitionPresets,
   createStackNavigator
 } from "@react-navigation/stack";
+import { useAuth } from "../providers/AuthProvider";
 import { headerStyle } from "../styles/Screens";
-import { AuthenticationStackParamsList } from "./AuthenticationStackNavigator";
+import AuthenticationStackNavigator, {
+  AuthenticationStackParamsList
+} from "./AuthenticationStackNavigator";
 import BottomTabMenuNavigator, {
   BottomTabNavigatorParamsList
 } from "./BottomTabMenuNavigator";
@@ -16,6 +19,8 @@ export type RootStackParamsList = {
 
 const RootStack = createStackNavigator<RootStackParamsList>();
 export default function RootStackNavigator() {
+  const { accessToken } = useAuth();
+
   return (
     <RootStack.Navigator
       screenOptions={{
@@ -27,11 +32,19 @@ export default function RootStackNavigator() {
           flex: 1
         }
       }}>
-      <RootStack.Screen
-        name="root"
-        component={BottomTabMenuNavigator}
-        options={{ ...TransitionPresets.ModalSlideFromBottomIOS }}
-      />
+      {accessToken ? (
+        <RootStack.Screen
+          name="root"
+          component={BottomTabMenuNavigator}
+          options={{ ...TransitionPresets.ModalSlideFromBottomIOS }}
+        />
+      ) : (
+        <RootStack.Screen
+          name="auth"
+          component={AuthenticationStackNavigator}
+          options={{ ...TransitionPresets.ModalSlideFromBottomIOS }}
+        />
+      )}
     </RootStack.Navigator>
   );
 }

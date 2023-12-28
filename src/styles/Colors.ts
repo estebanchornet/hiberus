@@ -1,8 +1,8 @@
 export const colors = {
-  primary: "#42184F",
-  primary30: "rgba(66, 24, 79, 0.3)",
-  primary50: "rgba(66, 24, 79, 0.5)",
-  secondary: "#651265",
+  primary: "#153963",
+  primary30: "rgba(21,57,99, 0.3)",
+  primary50: "rgba(21,57,99, 0.5)",
+  secondary: "#7288a1",
   success: "#00B74A",
   danger: "#F93154",
   danger30: "rgba(249,49,84, 0.3)",
@@ -28,8 +28,8 @@ export const colors = {
   text: {
     primary: "#646464",
     secondary: "#A0A0A0",
-    placeholder: "#65126550",
-    tertiary: "#651265",
+    placeholder: "#7288a180",
+    tertiary: "#7288a1",
     disabled: "#9E9E9E",
     link: "#007AFF",
     light: "#FFFFFF",

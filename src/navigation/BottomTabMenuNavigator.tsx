@@ -42,7 +42,7 @@ export default function BottomTabMenuNavigator() {
         name="homeStack"
         component={HomeStackNavigator}
         options={{
-          title: "Home",
+          title: "Pokédex",
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon color={color} focused={focused} icon="home" />
           )

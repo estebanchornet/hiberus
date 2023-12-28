@@ -22,7 +22,7 @@
     "sortJSONTypeReverse": false
   },
   "cSpell.language": "en",
-  "cSpell.words": [],
+  "cSpell.words": ["Pokédex"],
   "cSpell.ignorePaths": [
     "**/package-lock.json",
     "**/node_modules/**",
