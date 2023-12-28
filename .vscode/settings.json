@@ -1,0 +1,34 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.bracketPairColorization.enabled": true,
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+  "prettier.jsxBracketSameLine": true,
+  "prettier.trailingComma": "none",
+  "sortJSON.contextMenu": {
+    "sortJSON": false,
+    "sortJSONReverse": false,
+    "sortJSONKeyLength": false,
+    "sortJSONKeyLengthReverse": false,
+    "sortJSONAlphaNum": true,
+    "sortJSONAlphaNumReverse": false,
+    "sortJSONValues": false,
+    "sortJSONValuesReverse": false,
+    "sortJSONType": false,
+    "sortJSONTypeReverse": false
+  },
+  "cSpell.language": "en",
+  "cSpell.words": [],
+  "cSpell.ignorePaths": [
+    "**/package-lock.json",
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/objects/**",
+    ".vscode",
+    ".vscode-insiders"
+  ]
+}
