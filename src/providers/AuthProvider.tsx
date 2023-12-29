@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import { useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { loginAsync } from "../services/AuthenticationService";
+import { queryClient, queryClientPersister } from "../services/QueryService";
 import {
   AuthContext,
   AuthContextActions,
@@ -56,9 +57,8 @@ export default function AuthProvider({
 
   const signOut = useCallback(async () => {
     try {
-      // TODO: To be checked if we use react query
-      //   await queryClientPersister.removeClient();
-      //   queryClient.clear();
+      await queryClientPersister.removeClient();
+      queryClient.clear();
     } finally {
       await SecureStore.deleteItemAsync(ACCESS_TOKEN);
       await SecureStore.deleteItemAsync(REFRESH_TOKEN);
