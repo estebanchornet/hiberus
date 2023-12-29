@@ -1,11 +1,12 @@
 import * as SecureStore from "expo-secure-store";
 import { useCallback, useContext, useEffect, useMemo, useReducer } from "react";
+import { loginAsync } from "../services/AuthenticationService";
 import {
   AuthContext,
   AuthContextActions,
-  AuthContextData,
-  AuthState
+  AuthContextData
 } from "./AuthContext";
+import authReducer from "./AuthReducer";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./IdentityConstants";
 
 export default function AuthProvider({
@@ -13,7 +14,7 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(authReducer, {
     isLoading: true,
     accessToken: null,
     refreshToken: null
@@ -40,16 +41,16 @@ export default function AuthProvider({
   }, []);
 
   const signIn = useCallback(async (email: string, password: string) => {
-    //TODO: Call API sign in const response = await loginAsync(userIdentifier, password);
+    const response = await loginAsync(email, password);
 
     // TODO: Adapt fake tokens with API response
-    await SecureStore.setItemAsync(ACCESS_TOKEN, "Access token");
-    await SecureStore.setItemAsync(REFRESH_TOKEN, "Refresh token");
+    await SecureStore.setItemAsync(ACCESS_TOKEN, response.accessToken);
+    await SecureStore.setItemAsync(REFRESH_TOKEN, response.refreshToken);
 
     dispatch({
       type: "SIGN_IN",
-      accessToken: "Access token",
-      refreshToken: "Refresh token"
+      accessToken: response.accessToken,
+      refreshToken: response.refreshToken
     });
   }, []);
 
@@ -89,37 +90,4 @@ export function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
   if (!context) throw new Error("Authentication context is required");
   return context;
-}
-
-function reducer(
-  prevState: AuthState,
-  action: {
-    type: string;
-    accessToken: string | null;
-    refreshToken: string | null;
-  }
-): AuthState {
-  switch (action.type) {
-    case "RESTORE_TOKEN":
-      return {
-        ...prevState,
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken,
-        isLoading: false
-      };
-    case "SIGN_IN":
-      return {
-        ...prevState,
-        accessToken: action.accessToken,
-        refreshToken: action.refreshToken
-      };
-    case "SIGN_OUT":
-      return {
-        ...prevState,
-        accessToken: null,
-        refreshToken: null
-      };
-    default:
-      return prevState;
-  }
 }

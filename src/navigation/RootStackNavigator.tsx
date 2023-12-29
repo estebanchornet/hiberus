@@ -3,6 +3,8 @@ import {
   TransitionPresets,
   createStackNavigator
 } from "@react-navigation/stack";
+import React from "react";
+import LoadingComponent from "../components/LoadingComponent";
 import { useAuth } from "../providers/AuthProvider";
 import { headerStyle } from "../styles/Screens";
 import AuthenticationStackNavigator, {
@@ -19,7 +21,11 @@ export type RootStackParamsList = {
 
 const RootStack = createStackNavigator<RootStackParamsList>();
 export default function RootStackNavigator() {
-  const { accessToken } = useAuth();
+  const { accessToken, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <LoadingComponent />;
+  }
 
   return (
     <RootStack.Navigator

@@ -34,7 +34,7 @@ export default function AuthenticationStackNavigator() {
         name="register"
         component={RegisterScreen}
         options={{
-          title: "Register"
+          title: "Sign up"
         }}
       />
     </AuthenticationStack.Navigator>

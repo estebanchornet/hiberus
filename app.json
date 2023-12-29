@@ -23,6 +23,11 @@
     },
     "web": {
       "favicon": "./src/assets/img/favicon.png"
+    },
+    "extra": {
+      "identityAddress": "http://51.38.51.187:5050/api/v1/auth",
+      "pokeApiAddress": "https://pokeapi.co/api/v2",
+      "pokemonSpriteAddress": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork"
     }
   }
 }

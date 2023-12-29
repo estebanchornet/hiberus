@@ -82,7 +82,7 @@ function TabBarIcon({
           marginBottom: 2
         }}></View>
       <Icon
-        type="font-awesome"
+        type="font-awesome-5"
         name={icon}
         color={color}
         size={iconSizes.lg}></Icon>

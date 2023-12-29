@@ -16,7 +16,7 @@ export default function PasswordToggleEyeComponent({
       style={({ pressed }) => pressed && { opacity: 0.2 }}
       onPress={onPress}>
       <Icon
-        type="font-awesome"
+        type="font-awesome-5"
         name={isSecure ? "eye" : "eye-slash"}
         color={colors.primary50}
         size={iconSizes.lg}></Icon>
