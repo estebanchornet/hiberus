@@ -9,7 +9,13 @@ export class PokemonClient {
     this.instance = instance ?? axios.create();
   }
 
-  public async getPokemons(url: string = this.baseUrl + "/pokemon") {
+  public async getPokemons(
+    url: string = this.baseUrl + "/pokemon",
+    take?: number
+  ) {
+    if (take) {
+      url = url + `?limit=${take}`;
+    }
     const options: AxiosRequestConfig = {
       method: "GET",
       url: url,

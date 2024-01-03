@@ -37,5 +37,9 @@ export const colors = {
   },
   chip: {
     primary: "#9E9E9E"
+  },
+  skeleton: {
+    background: "#D6D6D6",
+    foreground: "#EEEEEE"
   }
 };

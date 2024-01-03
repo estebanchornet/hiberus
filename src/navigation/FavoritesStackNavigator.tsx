@@ -1,21 +1,18 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../screens/HomeScreen";
+import FavoritesScreen from "../screens/FavoritesScreen";
 import PokemonDetailScreen from "../screens/PokemonDetailScreen";
 import { headerStyle } from "../styles/Screens";
+import { PokemonDetailScreenProps } from "./HomeStackNavigator";
 
-export type PokemonDetailScreenProps = {
-  id: string;
-};
-
-export type HomeStackParamsList = {
-  home: undefined;
+export type FavoritesStackParamsList = {
+  favorites: undefined;
   pokemonDetail: PokemonDetailScreenProps;
 };
 
-const HomeStack = createStackNavigator<HomeStackParamsList>();
-export default function HomeStackNavigator() {
+const FavoritesStack = createStackNavigator<FavoritesStackParamsList>();
+export default function FavoritesStackNavigator() {
   return (
-    <HomeStack.Navigator
+    <FavoritesStack.Navigator
       screenOptions={{
         headerBackTitle: "Back",
         headerStyle: headerStyle.container,
@@ -24,19 +21,21 @@ export default function HomeStackNavigator() {
           flex: 1
         }
       }}>
-      <HomeStack.Screen
-        name="home"
-        component={HomeScreen}
+      <FavoritesStack.Screen
+        name="favorites"
+        component={FavoritesScreen}
         options={{
           headerShown: false,
-          title: "Pokédex"
+          title: "Favorites"
         }}
       />
-      <HomeStack.Screen
+      <FavoritesStack.Screen
         name="pokemonDetail"
         component={PokemonDetailScreen}
-        options={{ title: "Pokemon" }}
+        options={{
+          title: "Pokémon"
+        }}
       />
-    </HomeStack.Navigator>
+    </FavoritesStack.Navigator>
   );
 }

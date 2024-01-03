@@ -1,49 +1,64 @@
-import Constants from "expo-constants";
 import { Image } from "expo-image";
-import { StyleSheet, View, useWindowDimensions } from "react-native";
+import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
 import { Text } from "react-native-elements";
-import { usePokemon } from "../services/PokemonsService";
-import { PokemonResponse } from "../services/clients/PokemonClient";
+import { usePokemon, usePokemonSprite } from "../services/PokemonsService";
 import { colors } from "../styles/Colors";
 import { cornerRadius, spacings } from "../styles/Constants";
+import { typographies } from "../styles/Fonts";
+import { PokemonListItemSkeletonComponent } from "./PokemonListItemSkeletonComponent";
 
 export default function PokemonListItemComponent({
-  pokemon
+  pokemon,
+  onPokemonPress
 }: {
-  pokemon: PokemonResponse;
+  pokemon: string;
+  onPokemonPress: () => void;
 }) {
-  const pokemonQuery = usePokemon(pokemon.name);
+  const pokemonQuery = usePokemon(pokemon);
+  const pokemonSpriteQuery = usePokemonSprite(pokemonQuery.data?.id, {
+    enabled: !!pokemonQuery.data
+  });
   const { width } = useWindowDimensions();
 
+  if (pokemonQuery.isLoading || pokemonSpriteQuery.isLoading) {
+    return <PokemonListItemSkeletonComponent width={width} />;
+  }
+
+  if (!pokemonQuery.data) {
+    return null;
+  }
+
   return (
-    <View
+    <Pressable
+      onPress={onPokemonPress}
       style={{
         height: 120,
         width: width * 0.5 - spacings.lg,
-        marginBottom: 15,
+        marginBottom: spacings.lg,
         borderRadius: cornerRadius.md,
-        backgroundColor: colors.background.light,
-        padding: spacings.lg
+        backgroundColor: colors.background.overlay,
+        padding: spacings.md
       }}>
-      <Text>{pokemonQuery.data?.name.toUpperCase()}</Text>
-      <Text>#{pokemonQuery.data?.id.toString().padStart(3, "0")}</Text>
+      <Text
+        style={[
+          typographies.small,
+          { color: colors.text.light, zIndex: 2, textTransform: "capitalize" }
+        ]}>
+        {pokemonQuery.data?.name}
+      </Text>
+      <Text
+        style={[typographies.caption, { color: colors.text.light, zIndex: 2 }]}>
+        #{pokemonQuery.data?.id.toString().padStart(3, "0")}
+      </Text>
 
       <Image
+        transition={300}
         source={{
-          uri:
-            Constants.expoConfig?.extra?.pokemonSpriteAddress +
-            `/${pokemonQuery.data?.id}.png`
+          uri: pokemonSpriteQuery.data
         }}
-        style={{
-          width: 100,
-          height: 100,
-          position: "absolute",
-          bottom: -15,
-          right: -10,
-          zIndex: 1
-        }}
+        style={styles.img}
       />
-    </View>
+    </Pressable>
   );
 }
 

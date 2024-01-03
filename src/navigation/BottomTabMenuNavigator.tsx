@@ -7,13 +7,21 @@ import { colors } from "../styles/Colors";
 import { cornerRadius, iconSizes, spacings } from "../styles/Constants";
 import { fontFamilies, fontSizes } from "../styles/Fonts";
 import { tabBarStyle } from "../styles/Screens";
+import FavoritesStackNavigator, {
+  FavoritesStackParamsList
+} from "./FavoritesStackNavigator";
 import HomeStackNavigator, { HomeStackParamsList } from "./HomeStackNavigator";
 import ProfileStackNavigator, {
   ProfileStackParamsList
 } from "./ProfileStackNavigator";
+import SearchStackNavigator, {
+  SearchStackParamsList
+} from "./SearchStackNavigator";
 
 export type BottomTabNavigatorParamsList = {
   homeStack: NavigatorScreenParams<HomeStackParamsList>;
+  searchStack: NavigatorScreenParams<SearchStackParamsList>;
+  favoritesStack: NavigatorScreenParams<FavoritesStackParamsList>;
   profileStack: NavigatorScreenParams<ProfileStackParamsList>;
 };
 
@@ -44,7 +52,27 @@ export default function BottomTabMenuNavigator() {
         options={{
           title: "Pokédex",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon color={color} focused={focused} icon="home" />
+            <TabBarIcon color={color} focused={focused} icon="gamepad" />
+          )
+        }}
+      />
+      <BottomTab.Screen
+        name="searchStack"
+        component={SearchStackNavigator}
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon color={color} focused={focused} icon="search" />
+          )
+        }}
+      />
+      <BottomTab.Screen
+        name="favoritesStack"
+        component={FavoritesStackNavigator}
+        options={{
+          title: "Favorites",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon color={color} focused={focused} icon="heart" />
           )
         }}
       />

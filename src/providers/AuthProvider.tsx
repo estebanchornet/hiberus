@@ -2,13 +2,13 @@ import * as SecureStore from "expo-secure-store";
 import { useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { loginAsync } from "../services/AuthenticationService";
 import { queryClient, queryClientPersister } from "../services/QueryService";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./AuthConstants";
 import {
   AuthContext,
   AuthContextActions,
   AuthContextData
 } from "./AuthContext";
 import authReducer from "./AuthReducer";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "./IdentityConstants";
 
 export default function AuthProvider({
   children
@@ -44,7 +44,6 @@ export default function AuthProvider({
   const signIn = useCallback(async (email: string, password: string) => {
     const response = await loginAsync(email, password);
 
-    // TODO: Adapt fake tokens with API response
     await SecureStore.setItemAsync(ACCESS_TOKEN, response.accessToken);
     await SecureStore.setItemAsync(REFRESH_TOKEN, response.refreshToken);
 

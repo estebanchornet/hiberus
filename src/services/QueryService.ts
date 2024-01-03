@@ -33,6 +33,8 @@ export const queryClientPersister = createAsyncStoragePersister({
   storage: AsyncStorage
 });
 
+export const infinitePokemonsQueryKey: string = "infinitePokemons";
 export const pokemonsQueryKey: string = "pokemons";
 export const pokemonQueryKey: string = "pokemon";
 export const pokemonSpriteKey: string = "pokemonSprite";
+export const userQueryKey: string = "user";

@@ -4,8 +4,10 @@ import { useFonts } from "expo-font";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "./src/components/ToastLayoutComponent";
+import AuthInterceptor from "./src/interceptors/AuthInterceptor";
 import RootStackNavigator from "./src/navigation/RootStackNavigator";
 import AuthProvider from "./src/providers/AuthProvider";
+import FavoritesProvider from "./src/providers/FavoritesProvider";
 import { queryClient, queryClientPersister } from "./src/services/QueryService";
 
 export default function App() {
@@ -22,13 +24,17 @@ export default function App() {
       client={queryClient}
       persistOptions={{ persister: queryClientPersister }}>
       <AuthProvider>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <RootStackNavigator />
-          </NavigationContainer>
-        </SafeAreaProvider>
+        <AuthInterceptor>
+          <FavoritesProvider>
+            <SafeAreaProvider>
+              <NavigationContainer>
+                <RootStackNavigator />
+              </NavigationContainer>
+            </SafeAreaProvider>
 
-        <Toast config={toastConfig} />
+            <Toast config={toastConfig} />
+          </FavoritesProvider>
+        </AuthInterceptor>
       </AuthProvider>
     </PersistQueryClientProvider>
   );

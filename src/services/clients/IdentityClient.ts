@@ -5,8 +5,6 @@ import { IRegisterInfo } from "../AuthenticationService";
 export class IdentityClient {
   private readonly instance: AxiosInstance;
   private readonly baseUrl?: string;
-  private readonly clientId?: string;
-  private readonly clientSecret?: string;
 
   constructor(baseUrl?: string, instance?: AxiosInstance) {
     this.instance = instance ?? axios.create();

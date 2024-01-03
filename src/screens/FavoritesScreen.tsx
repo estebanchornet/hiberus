@@ -1,32 +1,27 @@
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useRef } from "react";
-import { FlatList, useWindowDimensions } from "react-native";
+import { FlatList } from "react-native";
 import { Text } from "react-native-elements";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import LoadingComponent from "../components/LoadingComponent";
 import PokemonListItemComponent from "../components/PokemonListItemComponent";
-import { PokemonListItemSkeletonComponent } from "../components/PokemonListItemSkeletonComponent";
-import { HomeStackParamsList } from "../navigation/HomeStackNavigator";
-import { useInfinitePokemons } from "../services/PokemonsService";
+import { FavoritesStackParamsList } from "../navigation/FavoritesStackNavigator";
+import { useFavoritePokemons } from "../providers/FavoritesProvider";
 import { spacings } from "../styles/Constants";
 import { typographies } from "../styles/Fonts";
 
-export default function HomeScreen() {
-  const pokemonsQuery = useInfinitePokemons();
-  const { width } = useWindowDimensions();
-  const navigation = useNavigation<StackNavigationProp<HomeStackParamsList>>();
+export default function FavoritesScreen() {
+  const { pokemons, isLoading } = useFavoritePokemons();
   const insets = useSafeAreaInsets();
-
+  const navigation =
+    useNavigation<StackNavigationProp<FavoritesStackParamsList>>();
   const flatListRef = useRef(null);
 
   useScrollToTop(flatListRef);
 
-  if (pokemonsQuery.data?.pages.length === 0) {
-    return (
-      <Text style={typographies.body}>
-        At this time there are no pokemons available.
-      </Text>
-    );
+  if (isLoading) {
+    return <LoadingComponent />;
   }
 
   return (
@@ -37,10 +32,21 @@ export default function HomeScreen() {
         paddingBottom: insets.bottom,
         paddingHorizontal: spacings.md
       }}
-      data={pokemonsQuery.data?.pages.flatMap((p) => p.results)}
+      ListEmptyComponent={
+        <Text style={[typographies.body, { textAlign: "center" }]}>
+          You don't have any pokémon marked as favorite yet! What are you
+          waiting for?
+        </Text>
+      }
+      ListHeaderComponentStyle={{
+        alignItems: "center",
+        marginBottom: spacings.lg
+      }}
+      ListHeaderComponent={
+        <Text style={typographies.title}>Favorite Pokémons</Text>
+      }
+      data={pokemons}
       scrollIndicatorInsets={{ right: spacings.xxs, top: insets.top }}
-      onEndReachedThreshold={0.3}
-      onEndReached={() => pokemonsQuery.fetchNextPage()}
       numColumns={2}
       columnWrapperStyle={{ justifyContent: "space-between" }}
       renderItem={({ item, index }) => (
@@ -52,7 +58,6 @@ export default function HomeScreen() {
           key={index}
         />
       )}
-      ListFooterComponent={<PokemonListItemSkeletonComponent width={width} />}
       keyExtractor={(_, index) => index.toString()}
     />
   );

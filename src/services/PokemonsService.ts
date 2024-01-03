@@ -1,11 +1,9 @@
-import {
-  UseQueryOptions,
-  useInfiniteQuery,
-  useQuery
-} from "@tanstack/react-query";
-import { AxiosRequestConfig } from "axios";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import Constants from "expo-constants";
+import { getDataUrl } from "./BlobService";
 import {
+  infinitePokemonsQueryKey,
   pokemonQueryKey,
   pokemonSpriteKey,
   pokemonsQueryKey
@@ -14,13 +12,33 @@ import { pokemonClientFactory } from "./clients/PokemonClientFactory";
 
 export function useInfinitePokemons() {
   return useInfiniteQuery({
-    queryKey: [pokemonsQueryKey],
+    queryKey: [infinitePokemonsQueryKey],
     queryFn: async ({ pageParam }) => {
       return await getPokemons(pageParam);
     },
     initialPageParam: undefined,
     getNextPageParam: (lastGroup) => {
       return lastGroup.next;
+    }
+  });
+}
+
+export function usePokemons() {
+  return useQuery({
+    queryKey: [pokemonsQueryKey],
+    queryFn: async () => {
+      const pokemonsResponse = await getPokemons(undefined, 1302);
+      const pokemons: PokemonCustom[] = pokemonsResponse.results.map((pr) => {
+        const urlParts = pr.url.split("/");
+        const id = urlParts[urlParts.length - 2];
+
+        return {
+          id: id,
+          name: pr.name
+        };
+      });
+
+      return pokemons;
     }
   });
 }
@@ -32,8 +50,7 @@ export function usePokemon(id: string) {
   });
 }
 
-// TODO: To check if we keep it
-export function usePokemonSprite(id: number, options: UseQueryOptions) {
+export function usePokemonSprite(id: number, options?: { enabled?: boolean }) {
   return useQuery({
     queryKey: [pokemonSpriteKey, id],
     queryFn: () => getPokemonSprite(id),
@@ -41,9 +58,9 @@ export function usePokemonSprite(id: number, options: UseQueryOptions) {
   });
 }
 
-async function getPokemons(url?: string) {
+async function getPokemons(url?: string, take?: number) {
   const pokemonClient = pokemonClientFactory.create();
-  const response = await pokemonClient.getPokemons(url);
+  const response = await pokemonClient.getPokemons(url, take);
 
   return response.data;
 }
@@ -55,26 +72,21 @@ async function getPokemon(id: string) {
   return response.data;
 }
 
-// TODO: To check if we keep it
 async function getPokemonSprite(id: number) {
   const url = Constants.expoConfig?.extra?.pokemonSpriteAddress + `/${id}.png`;
-  const options: AxiosRequestConfig = {
-    method: "GET",
-    url: url,
-    headers: {
-      Accept: "application/json"
-    }
-  };
 
-  const response = this.instance.request(options);
+  try {
+    const response = await axios.get<Blob>(url, {
+      responseType: "blob"
+    });
 
-  console.log("SPRITE", response);
-  return response;
+    return getDataUrl(response.data);
+  } catch (e: any) {
+    return null;
+  }
 }
 
 export type PokemonCustom = {
   id: string;
   name: string;
-  picture: string;
-  color?: string;
 };
