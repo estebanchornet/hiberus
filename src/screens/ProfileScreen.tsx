@@ -3,7 +3,7 @@ import { Icon, Text } from "react-native-elements";
 import LoadingComponent from "../components/LoadingComponent";
 import { useUser } from "../services/UsersService";
 import { colors } from "../styles/Colors";
-import { cornerRadius, iconSizes, spacings } from "../styles/Constants";
+import { borderRadius, iconSizes, spacings } from "../styles/Constants";
 import { typographies } from "../styles/Fonts";
 
 export default function ProfileScreen() {
@@ -26,7 +26,7 @@ export default function ProfileScreen() {
         style={{
           marginTop: spacings.xxl,
           backgroundColor: colors.background.light,
-          borderRadius: cornerRadius.xl,
+          borderRadius: borderRadius.xl,
           padding: spacings.xl
         }}>
         <View style={{ flexDirection: "row", marginBottom: spacings.lg }}>

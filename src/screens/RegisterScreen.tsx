@@ -12,7 +12,7 @@ import { useRegisterAsync } from "../services/AuthenticationService";
 import { toastError, toastSuccess } from "../services/ToastService";
 import { largePrimaryRoundedButtonStyle } from "../styles/Buttons";
 import { colors } from "../styles/Colors";
-import { cornerRadius, spacings } from "../styles/Constants";
+import { borderRadius, spacings } from "../styles/Constants";
 import { largeInputStyle } from "../styles/Inputs";
 
 export default function RegisterScreen() {
@@ -308,8 +308,8 @@ const firstNameContainerStyle = StyleSheet.flatten([
   largeInputStyle.container,
   {
     borderRadius: undefined,
-    borderTopLeftRadius: cornerRadius.md,
-    borderTopRightRadius: cornerRadius.md,
+    borderTopLeftRadius: borderRadius.md,
+    borderTopRightRadius: borderRadius.md,
     marginBottom: spacings.xxs
   }
 ]);
@@ -318,7 +318,7 @@ const lastNameContainerStyle = StyleSheet.flatten([
   largeInputStyle.container,
   {
     borderRadius: undefined,
-    borderBottomLeftRadius: cornerRadius.md,
-    borderBottomRightRadius: cornerRadius.md
+    borderBottomLeftRadius: borderRadius.md,
+    borderBottomRightRadius: borderRadius.md
   }
 ]);

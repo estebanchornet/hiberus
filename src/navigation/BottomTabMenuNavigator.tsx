@@ -4,7 +4,7 @@ import React from "react";
 import { Platform, View } from "react-native";
 import { Icon } from "react-native-elements";
 import { colors } from "../styles/Colors";
-import { cornerRadius, iconSizes, spacings } from "../styles/Constants";
+import { borderRadius, iconSizes, spacings } from "../styles/Constants";
 import { fontFamilies, fontSizes } from "../styles/Fonts";
 import { tabBarStyle } from "../styles/Screens";
 import FavoritesStackNavigator, {
@@ -105,7 +105,7 @@ function TabBarIcon({
         style={{
           width: 30,
           height: spacings.xs,
-          borderRadius: cornerRadius.xs,
+          borderRadius: borderRadius.xs,
           backgroundColor: focused ? color : colors.background.transparent,
           marginBottom: 2
         }}></View>

@@ -1,7 +1,7 @@
 import ContentLoader, { Rect } from "react-content-loader/native";
 import { View } from "react-native";
 import { colors } from "../styles/Colors";
-import { cornerRadius, spacings } from "../styles/Constants";
+import { borderRadius, spacings } from "../styles/Constants";
 
 export function PokemonListItemSkeletonComponent({ width }: { width: number }) {
   return (
@@ -14,8 +14,8 @@ export function PokemonListItemSkeletonComponent({ width }: { width: number }) {
         <Rect
           x="0"
           y="0"
-          rx={cornerRadius.md}
-          ry={cornerRadius.md}
+          rx={borderRadius.md}
+          ry={borderRadius.md}
           width={width * 0.5 - spacings.lg}
           height="120"
         />

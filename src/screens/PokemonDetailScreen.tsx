@@ -9,7 +9,7 @@ import { useFavoritePokemons } from "../providers/FavoritesProvider";
 import { usePokemon, usePokemonSprite } from "../services/PokemonsService";
 import { Pokemon } from "../services/clients/PokemonClient";
 import { colors } from "../styles/Colors";
-import { cornerRadius, spacings } from "../styles/Constants";
+import { borderRadius, spacings } from "../styles/Constants";
 import { typographies } from "../styles/Fonts";
 
 export default function PokemonDetailScreen() {
@@ -83,7 +83,7 @@ export default function PokemonDetailScreen() {
             style={{
               paddingHorizontal: spacings.sm,
               backgroundColor: colors.chip.primary,
-              borderRadius: cornerRadius.lg,
+              borderRadius: borderRadius.lg,
               justifyContent: "center"
             }}>
             <Text style={[typographies.body, { color: colors.text.light }]}>
@@ -99,7 +99,7 @@ export default function PokemonDetailScreen() {
               style={{
                 padding: spacings.sm,
                 backgroundColor: colors.chip.primary,
-                borderRadius: cornerRadius.lg
+                borderRadius: borderRadius.lg
               }}>
               <Text
                 style={[
@@ -127,7 +127,7 @@ export default function PokemonDetailScreen() {
         style={{
           backgroundColor: colors.background.light,
           height: "100%",
-          borderRadius: cornerRadius.xxxl,
+          borderRadius: borderRadius.xxxl,
           zIndex: -1,
           position: "relative"
         }}>
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     height: 5,
     backgroundColor: colors.skeleton.background,
-    borderRadius: cornerRadius.sm
+    borderRadius: borderRadius.sm
   },
   progressBar: {
     height: 5

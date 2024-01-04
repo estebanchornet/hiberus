@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, useWindowDimensions } from "react-native";
 import { Text } from "react-native-elements";
 import { usePokemon, usePokemonSprite } from "../services/PokemonsService";
 import { colors } from "../styles/Colors";
-import { cornerRadius, spacings } from "../styles/Constants";
+import { borderRadius, spacings } from "../styles/Constants";
 import { typographies } from "../styles/Fonts";
 import { PokemonListItemSkeletonComponent } from "./PokemonListItemSkeletonComponent";
 
@@ -35,7 +35,7 @@ export default function PokemonListItemComponent({
         height: 120,
         width: width * 0.5 - spacings.lg,
         marginBottom: spacings.lg,
-        borderRadius: cornerRadius.md,
+        borderRadius: borderRadius.md,
         backgroundColor: colors.background.overlay,
         padding: spacings.md
       }}>

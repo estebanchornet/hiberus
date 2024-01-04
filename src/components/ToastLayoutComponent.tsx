@@ -3,7 +3,7 @@ import { View, useWindowDimensions } from "react-native";
 import { Icon, Text } from "react-native-elements";
 import { ToastConfig, ToastConfigParams } from "react-native-toast-message";
 import { colors } from "../styles/Colors";
-import { cornerRadius, iconSizes, spacings } from "../styles/Constants";
+import { borderRadius, iconSizes, spacings } from "../styles/Constants";
 import { elevations } from "../styles/Elevations";
 import { typographies } from "../styles/Fonts";
 
@@ -39,7 +39,7 @@ export default function ToastLayoutComponent({ props }: { props: ToastProps }) {
           justifyContent: "center",
           paddingHorizontal: spacings.lg,
           backgroundColor: colors.background.light,
-          borderRadius: cornerRadius.xxl,
+          borderRadius: borderRadius.xxl,
           minHeight: spacings.xxl * 2,
           minWidth: minWidth,
           maxWidth: minWidth,

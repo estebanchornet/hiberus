@@ -77,8 +77,8 @@ export default function LoginScreen() {
   return (
     <SafeAreaView
       style={{
-        paddingHorizontal: spacings.lg,
-        flex: 1
+        flex: 1,
+        padding: spacings.lg
       }}>
       <Image
         style={{

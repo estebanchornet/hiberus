@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 import { colors } from "./Colors";
-import { cornerRadius, spacings } from "./Constants";
+import { borderRadius, spacings } from "./Constants";
 import { fontFamilies } from "./Fonts";
 
 export const largeInputStyle = StyleSheet.create({
   container: {
     alignSelf: "center",
     backgroundColor: colors.background.light,
-    borderRadius: cornerRadius.md,
+    borderRadius: borderRadius.md,
     paddingHorizontal: spacings.lg,
     paddingVertical: spacings.sm,
     height: 46
@@ -18,7 +18,7 @@ export const largeInputStyle = StyleSheet.create({
     minWidth: 1
   },
   inputContainer: {
-    borderBottomWidth: cornerRadius.none,
+    borderBottomWidth: borderRadius.none,
     height: "100%",
     width: "100%"
   }

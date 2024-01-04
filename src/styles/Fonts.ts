@@ -29,11 +29,6 @@ export const typographies = StyleSheet.create({
     fontSize: fontSizes.md,
     color: colors.text.primary
   },
-  subtitle: {
-    fontFamily: fontFamilies.default,
-    fontSize: fontSizes.lg,
-    color: colors.text.primary
-  },
   title: {
     fontFamily: fontFamilies.default,
     fontSize: fontSizes.xl,

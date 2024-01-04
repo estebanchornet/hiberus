@@ -1,6 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useFonts } from "expo-font";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 import { toastConfig } from "./src/components/ToastLayoutComponent";
@@ -27,9 +30,13 @@ export default function App() {
         <AuthInterceptor>
           <FavoritesProvider>
             <SafeAreaProvider>
-              <NavigationContainer>
-                <RootStackNavigator />
-              </NavigationContainer>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <NavigationContainer>
+                  <RootStackNavigator />
+                </NavigationContainer>
+
+                <StatusBar />
+              </GestureHandlerRootView>
             </SafeAreaProvider>
 
             <Toast config={toastConfig} />
