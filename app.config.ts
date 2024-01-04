@@ -15,7 +15,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    supportsTablet: true
+    supportsTablet: true,
+    bundleIdentifier: "com.estebanchornet.Pokedex"
   },
   android: {
     adaptiveIcon: {
