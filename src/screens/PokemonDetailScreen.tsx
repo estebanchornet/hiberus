@@ -21,11 +21,11 @@ export default function PokemonDetailScreen() {
   });
   const favoritePokemons = useFavoritePokemons();
   const isFavorite = favoritePokemons.pokemons.some(
-    (p) => p.id === pokemonQuery.data.id
+    (p) => p.id === pokemonQuery.data?.id.toString()
   );
 
   useEffect(() => {
-    if (pokemonQuery.data) {
+    if (pokemonQuery.data && pokemonSpriteQuery.data) {
       navigation.setOptions({
         headerRight: () => (
           <Icon
@@ -36,11 +36,12 @@ export default function PokemonDetailScreen() {
             containerStyle={{ marginRight: spacings.md }}
             onPress={() => {
               if (isFavorite) {
-                favoritePokemons.deletePokemon(pokemonQuery.data.id);
+                favoritePokemons.deletePokemon(pokemonQuery.data.id.toString());
               } else {
                 favoritePokemons.addPokemon({
-                  id: pokemonQuery.data.id,
-                  name: pokemonQuery.data.name
+                  id: pokemonQuery.data.id.toString(),
+                  name: pokemonQuery.data.name,
+                  picture: pokemonSpriteQuery.data
                 });
               }
             }}
@@ -50,12 +51,13 @@ export default function PokemonDetailScreen() {
     }
   }, [
     pokemonQuery.data,
+    pokemonSpriteQuery.data,
     favoritePokemons.addPokemon,
     favoritePokemons.deletePokemon,
     isFavorite
   ]);
 
-  if (pokemonQuery.isLoading) {
+  if (pokemonQuery.isLoading || pokemonSpriteQuery.isLoading) {
     return <LoadingComponent />;
   }
 

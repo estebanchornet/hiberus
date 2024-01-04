@@ -37,7 +37,7 @@ export default function HomeScreen() {
         paddingBottom: insets.bottom,
         paddingHorizontal: spacings.md
       }}
-      data={pokemonsQuery.data?.pages.flatMap((p) => p.results)}
+      data={pokemonsQuery.data?.pages.flatMap((p) => p.pokemonsCustom)}
       scrollIndicatorInsets={{ right: spacings.xxs, top: insets.top }}
       onEndReachedThreshold={0.3}
       onEndReached={() => pokemonsQuery.fetchNextPage()}
@@ -45,7 +45,9 @@ export default function HomeScreen() {
       columnWrapperStyle={{ justifyContent: "space-between" }}
       renderItem={({ item, index }) => (
         <PokemonListItemComponent
-          pokemon={item.name}
+          name={item.name}
+          number={item.id}
+          picture={item.picture}
           onPokemonPress={() =>
             navigation.navigate("pokemonDetail", { id: item.name })
           }

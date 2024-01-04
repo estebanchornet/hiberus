@@ -9,12 +9,13 @@ export const FavoritesContext = createContext<FavoritesContextData>({
 
 export type FavoritesAction =
   | { type: "ADD_POKEMON"; payload: FavoritePokemon }
-  | { type: "DELETE_POKEMON"; payload: number }
+  | { type: "DELETE_POKEMON"; payload: string }
   | { type: "RESTORE_POKEMONS"; payload: FavoritePokemon[] };
 
 export interface FavoritePokemon {
-  id: number;
+  id: string;
   name: string;
+  picture: string;
 }
 
 export interface FavoritesState {
@@ -24,7 +25,7 @@ export interface FavoritesState {
 
 export interface FavoritesContextActions {
   addPokemon: (pokemon: FavoritePokemon) => Promise<void>;
-  deletePokemon: (pokemonId: number) => Promise<void>;
+  deletePokemon: (pokemonId: string) => Promise<void>;
 }
 
 export interface FavoritesContextData

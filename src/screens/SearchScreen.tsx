@@ -32,7 +32,7 @@ export default function SearchScreen() {
       return [];
     }
 
-    return pokemonsQuery.data?.filter(
+    return pokemonsQuery.data?.pokemonsCustom.filter(
       (p) =>
         p.name.toLowerCase().includes(searchBarValue.toLowerCase()) ||
         p.id.padStart(3, "0").includes(searchBarValue)
@@ -87,7 +87,9 @@ export default function SearchScreen() {
       removeClippedSubviews
       renderItem={({ item, index }) => (
         <PokemonListItemComponent
-          pokemon={item.name}
+          name={item.name}
+          number={item.id}
+          picture={item.picture}
           onPokemonPress={() =>
             navigation.navigate("pokemonDetail", { id: item.name })
           }

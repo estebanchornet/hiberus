@@ -59,7 +59,7 @@ export default function FavoritesProvider({
     dispatch({ type: "ADD_POKEMON", payload: pokemon });
   }, []);
 
-  const deletePokemon = useCallback(async (pokemonId: number) => {
+  const deletePokemon = useCallback(async (pokemonId: string) => {
     dispatch({ type: "DELETE_POKEMON", payload: pokemonId });
   }, []);
 

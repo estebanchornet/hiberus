@@ -51,7 +51,9 @@ export default function FavoritesScreen() {
       columnWrapperStyle={{ justifyContent: "space-between" }}
       renderItem={({ item, index }) => (
         <PokemonListItemComponent
-          pokemon={item.name}
+          name={item.name}
+          number={item.id}
+          picture={item.picture}
           onPokemonPress={() =>
             navigation.navigate("pokemonDetail", { id: item.name })
           }

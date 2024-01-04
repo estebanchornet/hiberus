@@ -6,6 +6,7 @@ export const colors = {
   success: "#00B74A",
   danger: "#F93154",
   danger30: "rgba(249,49,84, 0.3)",
+  info: "#39C0ED",
 
   background: {
     light: "#FFFFFF",

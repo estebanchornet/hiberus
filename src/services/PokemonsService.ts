@@ -8,6 +8,7 @@ import {
   pokemonSpriteKey,
   pokemonsQueryKey
 } from "./QueryService";
+import { PokemonsResponse } from "./clients/PokemonClient";
 import { pokemonClientFactory } from "./clients/PokemonClientFactory";
 
 export function useInfinitePokemons() {
@@ -26,20 +27,7 @@ export function useInfinitePokemons() {
 export function usePokemons() {
   return useQuery({
     queryKey: [pokemonsQueryKey],
-    queryFn: async () => {
-      const pokemonsResponse = await getPokemons(undefined, 1302);
-      const pokemons: PokemonCustom[] = pokemonsResponse.results.map((pr) => {
-        const urlParts = pr.url.split("/");
-        const id = urlParts[urlParts.length - 2];
-
-        return {
-          id: id,
-          name: pr.name
-        };
-      });
-
-      return pokemons;
-    }
+    queryFn: getAllPokemons
   });
 }
 
@@ -62,7 +50,14 @@ async function getPokemons(url?: string, take?: number) {
   const pokemonClient = pokemonClientFactory.create();
   const response = await pokemonClient.getPokemons(url, take);
 
-  return response.data;
+  return mapPokemonsResponseCustom(response.data);
+}
+
+async function getAllPokemons() {
+  const pokemonClient = pokemonClientFactory.create();
+  const response = await pokemonClient.getPokemons(undefined, 1302);
+
+  return mapPokemonsResponseCustom(response.data);
 }
 
 async function getPokemon(id: string) {
@@ -86,7 +81,36 @@ async function getPokemonSprite(id: number) {
   }
 }
 
+function mapPokemonsResponseCustom(pokemonsResponse: PokemonsResponse) {
+  const pokemonsCustom: PokemonCustom[] = [];
+  pokemonsResponse.results.map(({ name, url }) => {
+    const urlSplit = url.split("/");
+    const id = urlSplit[urlSplit.length - 2];
+
+    pokemonsCustom.push({
+      name: name,
+      id: id,
+      picture: `${
+        Constants.expoConfig?.extra?.pokemonSpriteAddress + `/${id}.png`
+      }`
+    });
+  });
+
+  const pokemonsResponseCustom: PokemonsResponseCustom = {
+    next: pokemonsResponse.next,
+    pokemonsCustom: pokemonsCustom
+  };
+
+  return pokemonsResponseCustom;
+}
+
 export type PokemonCustom = {
   id: string;
   name: string;
+  picture: string;
+};
+
+export type PokemonsResponseCustom = {
+  next: string;
+  pokemonsCustom: PokemonCustom[];
 };
