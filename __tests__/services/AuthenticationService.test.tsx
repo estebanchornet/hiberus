@@ -20,6 +20,7 @@ const queryClient = new QueryClient({
       gcTime: Infinity
     },
     mutations: {
+      retry: false,
       gcTime: Infinity
     }
   }
@@ -36,7 +37,7 @@ describe("AuthenticationService", () => {
     jest.clearAllMocks();
   });
 
-  it("should call RequestResourceOwnerPasswordAsync on loginAsync", async () => {
+  it("should call RequestResourceOwnerPasswordAsync on loginAsync and login", async () => {
     const email = "test@example.com";
     const password = "testPassword";
     const mockResponse = {
@@ -67,7 +68,29 @@ describe("AuthenticationService", () => {
     });
   });
 
-  it("should call RegisterAsync on registerAsync", async () => {
+  it("should fail login with invalid password or email", async () => {
+    const email = "test@example.com";
+    const password = "wrongPassword";
+
+    const mockIdentityClient = new IdentityClient();
+    jest
+      .spyOn(mockIdentityClient, "RequestResourceOwnerPasswordAsync")
+      .mockImplementationOnce(() => {
+        throw new Error("Invalid password");
+      });
+
+    jest
+      .spyOn(identityClientFactory, "create")
+      .mockReturnValueOnce(mockIdentityClient);
+
+    await act(async () => {
+      await expect(
+        async () => await loginAsync(email, password)
+      ).rejects.toThrow("Invalid password");
+    });
+  });
+
+  it("should call RegisterAsync on registerAsync and register a user", async () => {
     const registerInfo: IRegisterInfo = {
       firstName: "John",
       lastName: "Doe",
@@ -99,6 +122,36 @@ describe("AuthenticationService", () => {
         registerInfo
       );
       expect(result.current.isSuccess).toBe(true);
+    });
+  });
+
+  it("should throw error user exists on RegisterAsync", async () => {
+    const registerInfo: IRegisterInfo = {
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@example.com",
+      password: "password123"
+    };
+
+    const mockIdentityClient = new IdentityClient();
+    jest
+      .spyOn(mockIdentityClient, "RegisterAsync")
+      .mockImplementationOnce(() => {
+        throw new Error("User already exists");
+      });
+
+    jest
+      .spyOn(identityClientFactory, "create")
+      .mockReturnValueOnce(mockIdentityClient);
+
+    const { result } = renderHook(() => useRegisterAsync(), {
+      wrapper
+    });
+
+    await act(async () => {
+      await expect(
+        async () => await result.current.mutateAsync(registerInfo)
+      ).rejects.toThrow("User already exists");
     });
   });
 });
