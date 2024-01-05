@@ -1,17 +1,35 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
+import nock from "nock";
+import { ReactNode } from "react";
 import {
   IRegisterInfo,
   loginAsync,
   useRegisterAsync
 } from "../../src/services/AuthenticationService";
-import { IdentityClient } from "../../src/services/clients/IdentityClient";
+import {
+  IdentityClient,
+  TokenResponse
+} from "../../src/services/clients/IdentityClient";
 import { identityClientFactory } from "../../src/services/clients/IdentityClientFactory";
 
-// Mock the actual implementation of IdentityClient
-jest.mock("../../src/services/clients/IdentityClientFactory");
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      gcTime: Infinity
+    },
+    mutations: {
+      gcTime: Infinity
+    }
+  }
+});
 
-// TODO: Check await calls
+const wrapper = ({ children }: { children: ReactNode }) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
+
+jest.mock("../../src/services/clients/IdentityClientFactory");
 
 describe("AuthenticationService", () => {
   beforeEach(() => {
@@ -27,25 +45,26 @@ describe("AuthenticationService", () => {
       tokenType: "Bearer"
     };
 
-    // Mock the implementation of IdentityClient
     const mockIdentityClient = new IdentityClient();
     jest
       .spyOn(mockIdentityClient, "RequestResourceOwnerPasswordAsync")
       .mockResolvedValueOnce(mockResponse);
 
-    // Mock the create method of identityClientFactory
     jest
       .spyOn(identityClientFactory, "create")
       .mockReturnValueOnce(mockIdentityClient);
 
-    const response = await loginAsync(email, password);
+    let response: TokenResponse;
+    await act(async () => {
+      response = await loginAsync(email, password);
+    });
 
-    expect(response).toEqual(mockResponse);
-    waitFor(() =>
+    await waitFor(() => {
       expect(
         mockIdentityClient.RequestResourceOwnerPasswordAsync
-      ).toHaveBeenCalledWith(email, password)
-    );
+      ).toHaveBeenCalledWith(email, password);
+      expect(response).toEqual(mockResponse);
+    });
   });
 
   it("should call RegisterAsync on registerAsync", async () => {
@@ -56,26 +75,20 @@ describe("AuthenticationService", () => {
       password: "password123"
     };
 
-    // Mock the implementation of IdentityClient
     const mockIdentityClient = new IdentityClient();
     jest
       .spyOn(mockIdentityClient, "RegisterAsync")
       .mockResolvedValueOnce(undefined);
 
-    // Mock the create method of identityClientFactory
     jest
       .spyOn(identityClientFactory, "create")
       .mockReturnValueOnce(mockIdentityClient);
 
-    const Wrapper = ({ children }) => (
-      <QueryClientProvider client={new QueryClient()}>
-        {children}
-      </QueryClientProvider>
-    );
-
     const { result } = renderHook(() => useRegisterAsync(), {
-      wrapper: Wrapper
+      wrapper
     });
+
+    nock("https://api.com").post("/sign-up").reply(200);
 
     await act(async () => {
       await result.current.mutateAsync(registerInfo);
@@ -85,6 +98,7 @@ describe("AuthenticationService", () => {
       expect(mockIdentityClient.RegisterAsync).toHaveBeenCalledWith(
         registerInfo
       );
+      expect(result.current.isSuccess).toBe(true);
     });
   });
 });
