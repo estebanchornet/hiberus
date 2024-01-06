@@ -97,6 +97,8 @@ Start the Expo server
 
 Open the Expo Go app and connect to your local expo server (⚠**YOU MUST BE CONNECTED TO THE SAME NETWORK**)
 
+---
+
 To test it with an iOS simulator, follow [Expo docs prerequisites](https://docs.expo.dev/guides/local-app-development/#ios) and run
 
 ```bash
