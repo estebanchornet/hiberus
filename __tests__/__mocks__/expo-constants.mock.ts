@@ -1,4 +1,3 @@
-// mocks/expo-constants-mock.js
 module.exports = {
   ...jest.requireActual("expo-constants"),
   Constants: {
