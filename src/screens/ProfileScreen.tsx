@@ -32,21 +32,21 @@ export default function ProfileScreen() {
         <View style={{ flexDirection: "row", marginBottom: spacings.lg }}>
           <Text style={typographies.body}>Name</Text>
           <Text style={[typographies.body, styles.rightColumn]}>
-            {userQuery.data.name}
+            {userQuery.data?.name}
           </Text>
         </View>
 
         <View style={{ flexDirection: "row", marginBottom: spacings.lg }}>
           <Text style={typographies.body}>Last Name</Text>
           <Text style={[typographies.body, styles.rightColumn]}>
-            {userQuery.data.surname}
+            {userQuery.data?.surname}
           </Text>
         </View>
 
         <View style={{ flexDirection: "row" }}>
           <Text style={typographies.body}>Email</Text>
           <Text style={[typographies.body, styles.rightColumn]}>
-            {userQuery.data.email}
+            {userQuery.data?.email}
           </Text>
         </View>
       </View>
