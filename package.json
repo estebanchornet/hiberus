@@ -61,10 +61,11 @@
       "node"
     ],
     "moduleNameMapper": {
-      "expo-constants": "<rootDir>/__tests__/mocks/expo-constants.mock.ts"
+      "expo-constants": "<rootDir>/__tests__/__mocks__/expo-constants.mock.ts"
     },
     "testPathIgnorePatterns": [
-      "/__tests__/mocks/"
+      "/__tests__/__mocks__/",
+      "/__tests__/__utils__/"
     ]
   },
   "private": true
