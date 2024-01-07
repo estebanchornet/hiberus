@@ -87,7 +87,7 @@ Install dependencies
   npm install
 ```
 
-If you want to test it with a real device (Recommended), then Expo Go must be downloaded from the [AppStore](https://apps.apple.com/us/app/expo-go/id982107779) / [PlayStore](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=es_PY&pli=1)
+If you want to test it with a real device (**Recommended**), then Expo Go must be downloaded from the [AppStore](https://apps.apple.com/us/app/expo-go/id982107779) / [PlayStore](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=es_PY&pli=1)
 
 Start the Expo server
 
