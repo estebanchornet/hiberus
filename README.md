@@ -72,7 +72,7 @@ This project uses [Expo CLI](https://docs.expo.dev/more/expo-cli/) that it's ins
 Clone the project
 
 ```bash
-  git clone https://github.com/Estevete/hiberus.git
+  git clone https://github.com/estebanchornet/hiberus.git
 ```
 
 Go to the project directory
