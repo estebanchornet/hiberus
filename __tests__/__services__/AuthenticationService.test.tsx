@@ -1,7 +1,5 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react-native";
 import nock from "nock";
-import { ReactNode } from "react";
 import {
   IRegisterInfo,
   loginAsync,
@@ -12,23 +10,7 @@ import {
   TokenResponse
 } from "../../src/services/clients/IdentityClient";
 import { identityClientFactory } from "../../src/services/clients/IdentityClientFactory";
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-      gcTime: Infinity
-    },
-    mutations: {
-      retry: false,
-      gcTime: Infinity
-    }
-  }
-});
-
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-);
+import Wrapper from "../__utils__/QueryClientProviderWrapper";
 
 jest.mock("../../src/services/clients/IdentityClientFactory");
 
@@ -108,7 +90,7 @@ describe("AuthenticationService", () => {
       .mockReturnValueOnce(mockIdentityClient);
 
     const { result } = renderHook(() => useRegisterAsync(), {
-      wrapper
+      wrapper: Wrapper
     });
 
     nock("https://api.com").post("/sign-up").reply(200);
@@ -145,7 +127,7 @@ describe("AuthenticationService", () => {
       .mockReturnValueOnce(mockIdentityClient);
 
     const { result } = renderHook(() => useRegisterAsync(), {
-      wrapper
+      wrapper: Wrapper
     });
 
     await act(async () => {
